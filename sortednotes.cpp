@@ -70,13 +70,16 @@ int SortedNotes::tracknotes( Track *t )
 		deltatime = next->eventtime - runningtime;
 		buff[0] = next->pitch;
 		buff[1] = next->velocity;
-		t->recordMevent(deltatime, next->status, buff, 2 );
+		if( (next->status & 0xf0) == PROGCNG )
+			t->recordMevent(deltatime, next->status, buff, 1 );
+		else
+			t->recordMevent(deltatime, next->status, buff, 2 );
 #if DEBUG
 		fprintf(stderr, "MidiEvent: dT %x status %x Note %d Veloc %d\n",
 			(unsigned)deltatime, next->status, next->pitch, next->velocity );
 #endif
 		runningtime = next->eventtime;
-		if( next->status >> 4 == NOTEOFF ) totalN++;
+		if( (next->status & 0xf0) == NOTEOFF ) totalN++;
 		next = next->next;
 	}
 	return totalN;

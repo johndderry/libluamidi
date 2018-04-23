@@ -168,7 +168,7 @@ static const struct luaL_Reg mylib [] = {
     {NULL, NULL}
 };
 
-extern "C" int luaopen_libmidi( lua_State *L ) {
+extern "C" int luaopen_libluamidi( lua_State *L ) {
     luaL_newlib(L, mylib);
     return 1;
 }
